@@ -79,6 +79,15 @@ public class UserDao {
 		}else
 		return null;
 	}
+	public User fetchByEmail(String email) {
+			User db = repo.fetchByEmail(email);
+			if(db!=null) {
+				return db;
+			}else {
+				return null;
+			}
+		
+	}
 	
 	
 	

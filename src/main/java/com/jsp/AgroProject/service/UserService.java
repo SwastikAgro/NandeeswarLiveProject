@@ -9,12 +9,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import com.jsp.AgroProject.dao.UserDao;
 import com.jsp.AgroProject.entity.User;
+import com.jsp.AgroProject.exception.EmailNotFoundException;
+import com.jsp.AgroProject.exception.PasswordWrongException;
 import com.jsp.AgroProject.exception.UserNotFoundException;
 import com.jsp.AgroProject.util.ResponseStructure;
 @Service
 public class UserService {
 	
-	private static final int ResponseEntity = 0;
 	@Autowired
 	private UserDao dao;
 	@Autowired
@@ -83,6 +84,21 @@ public class UserService {
 		}
 		 
 	}
+//	loginUser
+	public ResponseEntity<ResponseStructure<User>> loginUser(User user) {
+		User db = dao.fetchByEmail(user.getEmail());
+		if(db!=null) {
+			if(db.getPwd().equals(user.getPwd())) {
+				ResponseStructure<User> st=new ResponseStructure<User>();
+				st.setData(db);
+				st.setMessage("user login successfully ");
+				st.setStatus(HttpStatus.FOUND.value());
+				return new ResponseEntity<ResponseStructure<User>>(st, HttpStatus.FOUND);
+			}
+			throw new PasswordWrongException();
+		}
+		throw new EmailNotFoundException();
+		}
 	
 
 }

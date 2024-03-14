@@ -46,10 +46,11 @@ public class UserController {
 	public ResponseEntity<ResponseStructure<User>> updateUser(@RequestBody User user){
 		return service.updateUser(user);
 	}
-//	@GetMapping("/login")
-//	public ResponseEntity<ResponseStructure<User>> loginUser(@RequestBody User user) {
-//		return userService.loginUser(user);
-//	}
+	
+	@GetMapping("/login")
+	public ResponseEntity<ResponseStructure<User>> loginUser(@RequestBody User user) {
+		return service.loginUser(user);
+	}
 //	@GetMapping("/otp")
 //	public ResponseEntity<ResponseStructure<Integer>> otpSend(@RequestParam String email){
 //		System.out.println("hello");
