@@ -14,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Entity
@@ -22,7 +24,11 @@ public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	@NotNull(message = "name cannot be null")
+	@NotBlank(message = " name cannot be blank ")
 	private String firstName;
+	@NotBlank(message = " name cannot be blank ")
+	@NotNull(message =" name cannot be null ")
 	private String lastName;
 	@Column(unique = true)
 	private String email;
