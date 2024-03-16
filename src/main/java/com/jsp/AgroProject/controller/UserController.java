@@ -54,7 +54,6 @@ public class UserController {
 	}
 //	@GetMapping("/otp")
 //	public ResponseEntity<ResponseStructure<Integer>> otpSend(@RequestParam String email){
-//		System.out.println("hello");
 //		return userService.otp(email);
 //	}
 }

@@ -16,6 +16,7 @@ import com.jsp.AgroProject.exception.EmailAlreadyExistsException;
 import com.jsp.AgroProject.exception.EmailNotFoundException;
 import com.jsp.AgroProject.exception.PasswordWrongException;
 import com.jsp.AgroProject.exception.UserNotFoundException;
+import com.jsp.AgroProject.exception.UserPwdMissMatch;
 import com.jsp.AgroProject.util.ResponseStructure;
 
 import jakarta.activation.DataSource;
@@ -109,7 +110,7 @@ public class UserService {
 	}
 
 
-	//	saveUser
+//	saveUser
 	public ResponseEntity<ResponseStructure<User>> saveUser(User user) {
 
 		ResponseStructure<User> m= new ResponseStructure<User>();	
@@ -164,22 +165,22 @@ public class UserService {
 	}
 //	loginUser
 	public ResponseEntity<ResponseStructure<User>> loginUser(String email, String pwd) {
-		User db = dao.fetchByEmail(email);
-		if(db!=null) {
-			if(db.getPwd().equals(pwd)) {
+		 String dbemail = dao.fetchByEmail(email, pwd);
+		 String dbpwd = dao.fetchByEmail(email, pwd);
+
+		if(dbemail == email && dbpwd== pwd) {
 				ResponseStructure<User> st=new ResponseStructure<User>();
-				st.setData(db);
 				st.setMessage("user login successfully ");
 				st.setStatus(HttpStatus.FOUND.value());
 				return new ResponseEntity<ResponseStructure<User>>(st, HttpStatus.FOUND);
-			}
-			throw new PasswordWrongException();
+		}else if(dbemail== null){
+			throw new EmailNotFoundException();
 		}
-		throw new EmailNotFoundException();
+		else {
+		throw new UserPwdMissMatch();
 		}
 
 
 	
-	
-
+	}
 }
