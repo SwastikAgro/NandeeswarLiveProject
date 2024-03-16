@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.GetExchange;
 
 import com.jsp.AgroProject.entity.User;
 import com.jsp.AgroProject.service.UserService;
 import com.jsp.AgroProject.util.ResponseStructure;
+
+import jakarta.mail.MessagingException;
 
 @RestController
 public class UserController {
@@ -22,7 +23,7 @@ public class UserController {
 	private UserService service;
 	
 	@PostMapping("/register")
-	public ResponseEntity<ResponseStructure<User>> register(@RequestBody User user){
+	public ResponseEntity<ResponseStructure<User>> register(@RequestBody User user) throws MessagingException{
 		return service.register(user);
 	}
 	@PostMapping("/save")
@@ -33,7 +34,7 @@ public class UserController {
 	public ResponseEntity<ResponseStructure<User>> fetchUser(@RequestParam int id){
 		return service.fetchUser(id);
 	}
-	@GetMapping("/deleteById")
+	@GetMapping("/deleteById") 
 	public ResponseEntity<ResponseStructure<User>> deleteUser(@RequestParam int id){
 		return service.deleteUser(id);
 	}
