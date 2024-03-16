@@ -52,8 +52,8 @@ public class UserController {
 	public ResponseEntity<ResponseStructure<User>> loginUser( String email, String pwd) {
 		return service.loginUser(email, pwd);
 	}
-//	@GetMapping("/otp")
-//	public ResponseEntity<ResponseStructure<Integer>> otpSend(@RequestParam String email){
-//		return userService.otp(email);
-//	}
+	@GetMapping("/otp")
+	public ResponseEntity<ResponseStructure<Integer>> otpSend(@RequestParam String email) throws MessagingException{
+		return service.sendOtp(email);
+	}
 }

@@ -99,6 +99,16 @@ public class UserDao {
 		}else 
 		return null;
 	}
+	public boolean sendOtp(String email) {
+		User db = repo.fetchByEmail(email);
+		if(db!=null) {
+			return true;
+			
+		}else 
+		return false;
+		
+	}
+	
 	
 	
 	

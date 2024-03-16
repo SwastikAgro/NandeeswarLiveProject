@@ -2,6 +2,7 @@ package com.jsp.AgroProject.service;
 
 import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -32,20 +33,18 @@ public class UserService {
 	
 
 	
-//	public void sendSimpleMail(String email,String sub, String msg,String attachment ) throws MessagingException {
-//		
-//		MimeMessage mailMessage=mailSender.createMimeMessage();
-//		MimeMessageHelper helper=new MimeMessageHelper(mailMessage, true);
-//		
-//		helper.setFrom("swastikagro86@gmail.com");
-//		helper.setTo(email);
-//		helper.setText(msg);
-//		helper.setSubject(sub);
-//		DataSource File = null;
-//		helper.addAttachment(attachment, File);
-//		mailSender.send(mailMessage);
-//		
-//	}
+	public void sendSimpleMail(String email,String sub, String msg) throws MessagingException {
+		
+		MimeMessage mailMessage=mailSender.createMimeMessage();
+		MimeMessageHelper helper=new MimeMessageHelper(mailMessage, true);
+		
+		helper.setFrom("swastikagro86@gmail.com");
+		helper.setTo(email);
+		helper.setText(msg);
+		helper.setSubject(sub);
+		mailSender.send(mailMessage);
+		
+	}
 	
 
 //	register
@@ -182,5 +181,25 @@ public class UserService {
 
 
 	
+	}
+
+//  sendOtp
+	public ResponseEntity<ResponseStructure<Integer>> sendOtp(String email) throws MessagingException {
+		boolean db=dao.sendOtp(email);
+		if(db == true) {
+			Random random = new Random();
+			int value = random.nextInt(999999);
+			String email1 = email;
+			String emailtext = "YOUR ONE TIME PASSWORD IS \n \n "+"("+value+")";
+			String sub="Swastik Agro OTP ";
+			sendSimpleMail(email1,sub,emailtext);
+			ResponseStructure<Integer> m = new ResponseStructure<Integer>();
+			m.setData(value);
+			m.setMessage("OTP Sent Successfully");
+			m.setStatus(HttpStatus.FOUND.value());
+			return new ResponseEntity<ResponseStructure<Integer>>(m, HttpStatus.FOUND);
+		}else {
+			throw new EmailNotFoundException();
+		}
 	}
 }
