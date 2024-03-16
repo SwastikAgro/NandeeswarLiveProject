@@ -163,10 +163,10 @@ public class UserService {
 		 
 	}
 //	loginUser
-	public ResponseEntity<ResponseStructure<User>> loginUser(User user) {
-		User db = dao.fetchByEmail(user.getEmail());
+	public ResponseEntity<ResponseStructure<User>> loginUser(String email, String pwd) {
+		User db = dao.fetchByEmail(email);
 		if(db!=null) {
-			if(db.getPwd().equals(user.getPwd())) {
+			if(db.getPwd().equals(pwd)) {
 				ResponseStructure<User> st=new ResponseStructure<User>();
 				st.setData(db);
 				st.setMessage("user login successfully ");
@@ -177,6 +177,9 @@ public class UserService {
 		}
 		throw new EmailNotFoundException();
 		}
+
+
+	
 	
 
 }

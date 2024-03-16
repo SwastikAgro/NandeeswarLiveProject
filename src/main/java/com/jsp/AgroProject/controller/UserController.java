@@ -49,8 +49,8 @@ public class UserController {
 	}
 	
 	@GetMapping("/login")
-	public ResponseEntity<ResponseStructure<User>> loginUser(@RequestBody User user) {
-		return service.loginUser(user);
+	public ResponseEntity<ResponseStructure<User>> loginUser( String email, String pwd) {
+		return service.loginUser(email, pwd);
 	}
 //	@GetMapping("/otp")
 //	public ResponseEntity<ResponseStructure<Integer>> otpSend(@RequestParam String email){
